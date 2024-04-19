@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* @layer base {
+    html {
+        @apply font-mono
+    }
+} */
+
+@layer base {
+    label {
+        @apply font-serif;
+    }
+}
+
+@layer base {
+    input {
+        @apply border-2 rounded-sm border-gray-400;
+    }
+}

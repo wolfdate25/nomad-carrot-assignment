@@ -15,8 +15,10 @@ export default async function Home() {
   });
   return (
     <div className="m-2 min-h-screen">
-      <h1 className="text-4xl">Welcome {user.name}</h1>
-      <h2 className="text-2xl">Your email is {user.email}</h2>
+      <h1 className="text-4xl">Welcome {user?.name ? user.name : ""}</h1>
+      <h2 className="text-2xl">
+        Your email is {user?.email ? user.email : ""}
+      </h2>
     </div>
   );
 }
