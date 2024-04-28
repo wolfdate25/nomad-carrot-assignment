@@ -1,10 +1,10 @@
-import LikeButton from "@/components/post/like-btn";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import LikeButton from "./like-btn";
 
 async function getIsOwner(authorId: number) {
   const session = await getSession();
@@ -19,15 +19,9 @@ async function getPost(id: number) {
     where: {
       id,
     },
-    select: {
-      title: true,
-      content: true,
-      authorId: true,
-      author: {
-        select: {
-          username: true,
-        },
-      },
+    include: {
+      Likes: true,
+      author: true,
     },
   });
   return post;
@@ -46,7 +40,8 @@ export default async function PostDetail({
   if (!post) {
     return notFound();
   }
-  const isOwner = await getIsOwner(post.authorId);
+  console.log(post);
+  // const isOwner = await getIsOwner(post.authorId);
   return (
     <div>
       <div className="p-5 flex items-center gap-3 border-b border-neutral-700">
@@ -58,7 +53,12 @@ export default async function PostDetail({
         <h1 className="text-2xl font-semibold">{post.title}</h1>
         <p>{post.content}</p>
       </div>
-      <LikeButton></LikeButton>
+      <LikeButton
+        initialLikes={post.Likes.length}
+        alreadyLiked={false}
+        authorId={post.authorId}
+        postId={post.id}
+      ></LikeButton>
     </div>
   );
 }
